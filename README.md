@@ -27,6 +27,8 @@ Foram cadastrados alguns endpoints de teste para monitoramento.
   - Usuário: admin
   - Senha: admin
 
+![Preview do Projeto](https://i.ibb.co/2WWnvHK/graficos-blackbox.png)
+
 ## Observações
 
 Certifique-se de que o Docker e o Docker Compose estão instalados em seu ambiente antes de iniciar o projeto.
