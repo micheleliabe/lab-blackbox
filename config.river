@@ -1,0 +1,22 @@
+prometheus.exporter.blackbox "example" {
+  config_file = "/etc/agent/blackbox.yml"
+
+  target {
+    name    = "example"
+    address = "http://example.com"
+    module  = "http_2xx"
+  }
+
+}
+
+// Configure a prometheus.scrape component to collect Blackbox metrics.
+prometheus.scrape "demo" {
+  targets    = prometheus.exporter.blackbox.example.targets
+  forward_to = [prometheus.remote_write.demo.receiver]
+}
+
+prometheus.remote_write "demo" {
+  endpoint {
+    url = "http://prometheus:9090/api/v1/write"
+  }
+}

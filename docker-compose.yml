@@ -6,6 +6,7 @@ services:
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       - --web.listen-address=0.0.0.0:9090
+      - --enable-feature=remote-write-receiver
 
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
@@ -20,7 +21,16 @@ services:
       - ./blackbox/blackbox.yml:/etc/blackbox/blackbox.yml
     ports:
       - 9115:9115
-
+  grafana-agent:
+    image: grafana/agent:latest
+    environment:
+      - AGENT_MODE=flow
+    volumes:
+      - ./config.river:/etc/agent/config.river
+      - ./blackbox/blackbox.yml:/etc/agent/blackbox.yml
+    ports: 
+      - 12345:12345
+    command: run --server.http.listen-addr=0.0.0.0:12345 /etc/agent/config.river
   grafana:
     image: grafana/grafana-oss:latest
     ports:
