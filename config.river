@@ -1,4 +1,4 @@
-prometheus.exporter.blackbox "demo" {
+prometheus.exporter.blackbox "sites" {
   config_file = "/etc/agent/blackbox.yml"
 
   target {
@@ -14,19 +14,8 @@ prometheus.exporter.blackbox "demo" {
   }
 }
 
-discovery.relabel "blackbox_example" {
-  targets = prometheus.exporter.blackbox.demo.targets
-
-  rule {
-    source_labels = ["job"]
-    regex         = "integrations/blackbox/(.+)$"
-    target_label  = "job"
-  }
-
-  # rule {
-  #   source_labels = ["__meta_agent_integration_instance"]
-  #   target_label  = "component"
-  # }
+discovery.relabel "blackbox" {
+  targets = prometheus.exporter.blackbox.sites.targets
 
   rule {
     source_labels = ["__param_target"]
@@ -34,23 +23,19 @@ discovery.relabel "blackbox_example" {
     target_label  = "instance"
   }
 
-  rule {
-    source_labels = ["__param_module"]
-    target_label  = "module"
-  }
 }
 
 
 // Scrape agent metric endpoint(*required)
 prometheus.scrape "blackbox_metrics_scraper" {
-  targets = discovery.relabel.blackbox_example.output
+  targets = discovery.relabel.blackbox.output
   job_name        = "blackbox_metrics_job"
   scrape_interval = "10s"
-  forward_to      = [ prometheus.remote_write.agent_metrics.receiver ]
+  forward_to      = [ prometheus.remote_write.prometheus.receiver ]
 }
 
 // Remote write metrics to Grafana Metrics back-end
-prometheus.remote_write "agent_metrics" {
+prometheus.remote_write "prometheus" {
   endpoint {
     url = "http://prometheus:9090/api/v1/write"
  }

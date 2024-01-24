@@ -20,7 +20,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 13659,
   "graphTooltip": 0,
-  "id": 2,
+  "id": 6,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -919,8 +919,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Endpoints",
-  "uid": "NEzutrbMkAAs",
-  "version": 2,
+  "title": "Blackbox Exporter (HTTP prober) - 13659",
+  "uid": "NEzutrbMkQs",
+  "version": 1,
   "weekStart": ""
 }
