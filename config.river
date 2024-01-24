@@ -25,8 +25,6 @@ discovery.relabel "blackbox" {
 
 }
 
-
-// Scrape agent metric endpoint(*required)
 prometheus.scrape "blackbox_metrics_scraper" {
   targets = discovery.relabel.blackbox.output
   job_name        = "blackbox_metrics_job"
@@ -34,7 +32,6 @@ prometheus.scrape "blackbox_metrics_scraper" {
   forward_to      = [ prometheus.remote_write.prometheus.receiver ]
 }
 
-// Remote write metrics to Grafana Metrics back-end
 prometheus.remote_write "prometheus" {
   endpoint {
     url = "http://prometheus:9090/api/v1/write"
